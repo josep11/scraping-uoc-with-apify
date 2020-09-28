@@ -1,7 +1,7 @@
 {
-  "name": "apify-try",
+  "name": "scraping-uoc-with-apify",
   "version": "1.0.0",
-  "description": "trying to crawl",
+  "description": "crawling uoc degree course",
   "main": "index.js",
   "scripts": {
     "test": "node index.js"
