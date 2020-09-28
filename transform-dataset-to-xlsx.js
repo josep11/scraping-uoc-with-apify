@@ -26,10 +26,18 @@ Apify.main(async () => {
             numberFormat: '$#,##0.00; ($#,##0.00); -'
         });
 
+        var styleH = workbook.createStyle({
+            font: {
+                color: '#000000',
+                size: 15
+            },
+        });
+
         // Set value of cell A1 to 100 as a number type styled with paramaters of style
-        worksheet.cell(1, 1).string('Nom').style(style);
-        worksheet.cell(1, 2).string('Mode Evaluació').style(style);
-        worksheet.cell(1, 3).string('URL').style(style);
+        worksheet.cell(1, 1).string('Nom').style(styleH);
+        worksheet.cell(1, 2).string('Mode Evaluació').style(styleH);
+        worksheet.cell(1, 3).string('Crèdits').style(styleH);
+        worksheet.cell(1, 4).string('URL').style(styleH);
         // worksheet.cell(1, 3).formula('A1 + B1').style(style);
 
         // Set value of cell A3 to true as a boolean type styled with paramaters of style but with an adjustment to the font size.
@@ -37,21 +45,20 @@ Apify.main(async () => {
         items.forEach((item, index) => {
             worksheet.cell(2 + index, 1).string(item.name).style(style);
             worksheet.cell(2 + index, 2).string(item.evMode.join(',')).style(style);
-            worksheet.cell(2 + index, 3).string(item.url).style(style);
+            worksheet.cell(2 + index, 3).string(item.credits).style(style);
+            worksheet.cell(2 + index, 4).string(item.url).style(style);
             // console.log(index);
         });
-
-        // await datasetSubjects.drop();
-        // await datasetSubjects.pushData(items);
 
         // workbook.write("exported-data/subjects.xlsx"); //WOULD NOT WORK
         workbook.writeP = util.promisify(workbook.write);
         await workbook.writeP(fileNameOutput);
+        await datasetSubjects.drop();
     };
 
     let dd = await datasetSubjects.getData();
     // console.dir(dd.items);
-    if (dd.total == 0){
+    if (dd.total == 0) {
         throw new Error('There are no dataset items to transform to xlsx');
     }
     await writeDataToFile(dd.items);
