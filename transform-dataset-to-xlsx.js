@@ -2,6 +2,9 @@ const Apify = require('apify');
 const { log } = Apify.utils;
 const util = require('util');
 const excel = require('excel4node');
+const format = require('date-format');
+
+const fileNameOutput = `exported-data/subjects_${format.asString('yyyyMMdd_hhmmss', new Date())}.xlsx`;
 
 Apify.main(async () => {
     const datasetSubjects = await Apify.openDataset('subject-page');
@@ -43,7 +46,7 @@ Apify.main(async () => {
 
         // workbook.write("exported-data/subjects.xlsx"); //WOULD NOT WORK
         workbook.writeP = util.promisify(workbook.write);
-        await workbook.writeP("exported-data/subjects.xlsx");
+        await workbook.writeP(fileNameOutput);
     };
 
     let dd = await datasetSubjects.getData();

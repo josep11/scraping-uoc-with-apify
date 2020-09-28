@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "apify": "^0.21.4",
+    "date-format": "^3.0.0",
     "excel4node": "^1.7.2",
     "util": "^0.12.3"
   },
