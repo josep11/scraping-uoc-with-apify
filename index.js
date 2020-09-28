@@ -13,7 +13,7 @@ let url = uoc_functions.doPla('20201', '10.502', 'CAT');
 // process.exit();
 
 //FOR DEBUGGING A MAX OF 10 Rquests
-const MAX_REQ_STOP = 15;
+const MAX_REQ_STOP = 100;
 
 Apify.main(async () => {
     const requestQueue = await Apify.openRequestQueue();
@@ -43,10 +43,10 @@ Apify.main(async () => {
             log.error(error);
         },
         maxRequestsPerCrawl: MAX_REQ_STOP,
-        maxConcurrency: 1,
+        maxConcurrency: 10,
         launchPuppeteerOptions: {
             // For example, by adding "slowMo" you'll slow down Puppeteer operations to simplify debugging
-            slowMo: 500,
+            slowMo: 50,
         },
     });
 
@@ -104,7 +104,7 @@ Apify.main(async () => {
             return subj;
         });
 
-        log.debug(`subject name: ${data.name}`);
+        // log.debug(`subject name: ${data.name}`);
 
         if (!data.name) {
             log.error("No name of the subject was scraped on ", request.url);
