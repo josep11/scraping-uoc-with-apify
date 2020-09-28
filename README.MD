@@ -10,8 +10,6 @@ Behind the scenes it uses Apify with node.js and compromises two processes:
 
 ## Execute
 
-run
-
 ```bash
 
 rm -rf apify_storage/request_queues/*
