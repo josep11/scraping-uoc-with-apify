@@ -38,10 +38,6 @@ module.exports = {
         var nargs = new Number(arguments.length);
         var xdef = new String('750');
         var ydef = new String('450');
-        if (nargs < 4) {
-            x = new String(xdef);
-            y = new String(ydef);
-        }
 
         //var url="http://cv.uoc.edu/tren/trenacc/web/GATILLO.PLANDOCENTE?" + "any_academico="+ any + "&cod_asignatura="+codi+"&idioma="+lang+"&pagina=PD_PREV_SECRE";
         var url = "http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?" + "any_academico=" + any + "&cod_asignatura=" + codi + "&idioma=" + lang + "&pagina=PD_PREV_SECRE&cache=S";
