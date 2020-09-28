@@ -16,7 +16,7 @@ module.exports = {
 
             // The result can be accessed through the `m`-variable.
             m.forEach((match, groupIndex) => {
-                console.log(`Found match, group ${groupIndex}: ${match}`);
+                // console.log(`Found match, group ${groupIndex}: ${match}`);
                 if (groupIndex == 1) {
                     matchesArr.push(match);
                 }
