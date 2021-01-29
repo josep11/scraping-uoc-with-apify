@@ -91,8 +91,8 @@ Apify.main(async () => {
                 subj.evMode.push('AC+Pr');
             }
             // eslint-disable-next-line no-undef
-            subj.name = $('body > table > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(2) > td.subTAULA > font').text();
-
+            subj.name = $('.subTAULA > font').text();
+            
             subj.credits = document.querySelector('body > table > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(2) > td.subtaula > b:nth-child(2)').innerText;
             // console.log(subj);
             return subj;
