@@ -3,6 +3,7 @@ const uoc_functions = require('./uoc_functions');
 const helper = require('./helper.js');
 const { exception } = require('apify-shared/log');
 const mainUrl = 'http://cv.uoc.edu/estudiant/mes-uoc/ca/universitat/plans/GR02/index.html';
+// const mainUrl = 'http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=20202&cod_asignatura=10.515&idioma=CAT&pagina=PD_PREV_SECRE&cache=S'; //DEBUG ONLY
 
 const { log } = Apify.utils;
 log.setLevel(log.LEVELS.DEBUG);
@@ -107,7 +108,7 @@ Apify.main(async () => {
             }
             function findModeEvaluacio2(text) {
                 const regex = /(per superar l'assignatura:\s)(.*)\b/gm;
-
+                let mEv = "";
                 let m;
 
                 while ((m = regex.exec(text)) !== null) {
@@ -116,15 +117,14 @@ Apify.main(async () => {
                         regex.lastIndex++;
                     }
 
-                    // The result can be accessed through the `m`-variable.
                     m.forEach((match, groupIndex) => {
                         console.log(`Found match, group ${groupIndex}: ${match}`);
                         if (groupIndex == 2) {
-                            return match;
+                            mEv = match;
                         }
                     });
                 }
-                return "";
+                return mEv;
             }
             function findModeEvaluacio(text, token) {
                 let sentence = findSentenceContaining(text, token);
@@ -136,6 +136,9 @@ Apify.main(async () => {
             let text = $('html').text();
 
             let subj = {};
+            // eslint-disable-next-line no-undef
+            subj.name = $('.subTAULA > font').text();
+            subj.credits = document.querySelector('body > table > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(2) > td.subtaula > b:nth-child(2)').innerText;
             subj.evMode = [];
 
             const TOKEN_ASSIGNATURA = "l'assignatura és la següent: ";
@@ -146,9 +149,10 @@ Apify.main(async () => {
                 evMode = findModeEvaluacio2(text);
 
                 if (!evMode) {
+                    evMode = "";
                     throw (`The Token to find mode evaluacio is not on the page text so there is the need to update the code`);
                 }
-
+                
             }
             subj.evMode.push(evMode);
 
@@ -156,29 +160,21 @@ Apify.main(async () => {
             if (text.includes('AC: AC') || text.includes('atura: AC')) {
                 subj.evMode.push('AC');
             }
-        
             if (text.includes('EX: EX + AC')) {
                 subj.evMode.push('EX+AC');
             }
-        
             if (text.includes('AC + PS')) {
                 subj.evMode.push('AC+PS');
             }
-        
             if (text.includes('AC + Pr')) {
                 subj.evMode.push('AC+Pr');
             }
              */
-            // eslint-disable-next-line no-undef
-            subj.name = $('.subTAULA > font').text();
-
-            subj.credits = document.querySelector('body > table > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-child(2) > td.subtaula > b:nth-child(2)').innerText;
-            // console.log(subj);
             return subj;
         });
 
-        log.debug(`subject name: ${data.name}`);
-        log.debug(data);
+        // log.debug(`subject name: ${data.name}`);
+        // log.debug(data);
 
         if (!data.name) {
             log.error("No name of the subject was scraped on ", request.url);

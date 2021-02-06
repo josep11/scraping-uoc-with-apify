@@ -33,6 +33,7 @@ Apify.main(async () => {
             },
         });
 
+        worksheet.column(1).setWidth(50);
         // Set value of cell A1 to 100 as a number type styled with paramaters of style
         worksheet.cell(1, 1).string('Nom').style(styleH);
         worksheet.cell(1, 2).string('Mode Evaluació').style(styleH);
