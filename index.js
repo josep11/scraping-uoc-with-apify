@@ -3,6 +3,7 @@ const uoc_functions = require('./uoc_functions');
 const helper = require('./helper.js');
 const { exception } = require('apify-shared/log');
 const mainUrl = 'http://cv.uoc.edu/estudiant/mes-uoc/ca/universitat/plans/GR02/index.html';
+// "https://estudis.uoc.edu/ca/graus/psicologia/pla-estudis"; //TODO make this one as the index page and extract semester
 // const mainUrl = 'http://cv.uoc.edu/tren/trenacc/web/GAT_EXP.PLANDOCENTE?any_academico=20202&cod_asignatura=10.515&idioma=CAT&pagina=PD_PREV_SECRE&cache=S'; //DEBUG ONLY
 
 const { log } = Apify.utils;
@@ -152,7 +153,7 @@ Apify.main(async () => {
                     evMode = "";
                     throw (`The Token to find mode evaluacio is not on the page text so there is the need to update the code`);
                 }
-                
+
             }
             subj.evMode.push(evMode);
 
